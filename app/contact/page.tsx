@@ -14,11 +14,24 @@ export default function Contact() {
     agreeToTerms: false,
   });
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission here
     console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will contact you soon.');
+    setIsSubmitted(true);
+    
+    // Reset form after submission
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      message: '',
+      smsOptIn: false,
+      agreeToTerms: false,
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -107,6 +120,36 @@ export default function Contact() {
             {/* Contact Form */}
             <div className="bg-gray-50 p-8 rounded-lg">
               <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
+              
+              {/* Success Message */}
+              {isSubmitted && (
+                <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-green-800">
+                        Successfully submitted!
+                      </h3>
+                      <p className="mt-1 text-sm text-green-700">
+                        You've successfully submitted your message and we will be reaching out soon.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setIsSubmitted(false)}
+                      className="ml-auto flex-shrink-0 text-green-600 hover:text-green-800"
+                    >
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              )}
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
